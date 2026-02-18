@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RBAC.Application\RBAC.Application.csproj" />
+    <ProjectReference Include="..\RBAC.Infrastructure\RBAC.Infrastructure.csproj" />
+    <ProjectReference Include="..\RBAC.Shared\RBAC.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

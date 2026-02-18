@@ -1,0 +1,22 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+
+## ASP.NET Core
+appsettings.Development.json
+appsettings.Local.json
+
+## IDE
+.vscode/
+.idea/
+*.swp
+
+## OS
+.DS_Store
+
+## Secrets
+secrets.json
