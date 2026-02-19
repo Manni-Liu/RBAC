@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using RBAC.Application.Common;
 using RBAC.Application.Users;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RBAC.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/users")]
 public class UsersController : ControllerBase
