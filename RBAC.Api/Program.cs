@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using RBAC.Application.Users;
 using RBAC.Infrastructure.Persistence;
+using RBAC.Api.Middlewares;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +20,18 @@ builder.Services.AddDbContext<RbacDbContext>(options =>
 
 builder.Services.AddScoped<UserService>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
