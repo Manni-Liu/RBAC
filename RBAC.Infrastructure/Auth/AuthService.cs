@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using RBAC.Infrastructure.Persistence;
+using RBAC.Application.Auth;
 using RBAC.Domain.Entities;
+using RBAC.Infrastructure.Persistence;
 using RBAC.Application.Common;
 using RBAC.Domain.Common.Enums;
 
-namespace RBAC.Application.Auth;
+namespace RBAC.Infrastructure.Auth;
 
 public class AuthService : IAuthService
 {

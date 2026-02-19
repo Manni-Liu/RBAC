@@ -1,41 +1,35 @@
 using BCrypt.Net;
-using Microsoft.EntityFrameworkCore;
 using RBAC.Application.Common;
 using RBAC.Domain.Common.Enums;
 using RBAC.Domain.Entities;
-using RBAC.Infrastructure.Persistence;
 
 namespace RBAC.Application.Users;
 
 public class UserService
 {
-    private readonly RbacDbContext _db;
+    private readonly IUserRepository _userRepository;
 
-    public UserService(RbacDbContext db)
+    public UserService(IUserRepository userRepository)
     {
-        _db = db;
+        _userRepository = userRepository;
     }
 
-    // GET /api/users
     public async Task<List<UserResponseDto>> GetListAsync()
     {
-        return await _db.Users
-            .OrderBy(u => u.Id)
-            .Select(u => new UserResponseDto(
-                u.Id,
-                u.Username,
-                u.Email,
-                u.Phone,
-                (int)u.Status,
-                u.CreatedAt
-            ))
-            .ToListAsync();
+        var users = await _userRepository.GetAllAsync();
+        return users.Select(u => new UserResponseDto(
+            u.Id,
+            u.Username,
+            u.Email,
+            u.Phone,
+            (int)u.Status,
+            u.CreatedAt
+        )).ToList();
     }
 
-    // GET /api/users/{id}
     public async Task<UserResponseDto> GetByIdAsync(long id)
     {
-        var user = await _db.Users.FindAsync(id);
+        var user = await _userRepository.GetByIdAsync(id);
         if (user == null)
             throw new BusinessException("USER_NOT_FOUND", "User not found");
 
@@ -49,17 +43,13 @@ public class UserService
         );
     }
 
-    // POST /api/users
     public async Task<long> CreateAsync(long tenantId, CreateUserDto dto)
     {
-        var exists = await _db.Users
-            .AnyAsync(u => u.TenantId == tenantId && u.Username == dto.Username);
-
-        if (exists)
+        var exists = await _userRepository.GetByUsernameAsync(tenantId, dto.Username);
+        if (exists != null)
             throw new BusinessException("USERNAME_EXISTS", "Username already exists");
 
         var hash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-
         var user = new User(tenantId, dto.Username, hash);
 
         if (!string.IsNullOrWhiteSpace(dto.Email))
@@ -68,16 +58,13 @@ public class UserService
         if (!string.IsNullOrWhiteSpace(dto.Phone))
             user.GetType().GetProperty("Phone")!.SetValue(user, dto.Phone);
 
-        _db.Users.Add(user);
-        await _db.SaveChangesAsync();
-
+        await _userRepository.AddAsync(user);
         return user.Id;
     }
 
-    // PUT /api/users/{id}
     public async Task UpdateAsync(long id, UpdateUserDto dto)
     {
-        var user = await _db.Users.FindAsync(id);
+        var user = await _userRepository.GetByIdAsync(id);
         if (user == null)
             throw new BusinessException("USER_NOT_FOUND", "User not found");
 
@@ -95,17 +82,16 @@ public class UserService
                 user.Disable();
         }
 
-        await _db.SaveChangesAsync();
+        await _userRepository.UpdateAsync(user);
     }
 
-    // DELETE /api/users/{id}
     public async Task DisableAsync(long id)
     {
-        var user = await _db.Users.FindAsync(id);
+        var user = await _userRepository.GetByIdAsync(id);
         if (user == null)
             throw new BusinessException("USER_NOT_FOUND", "User not found");
 
         user.Disable();
-        await _db.SaveChangesAsync();
+        await _userRepository.UpdateAsync(user);
     }
 }
