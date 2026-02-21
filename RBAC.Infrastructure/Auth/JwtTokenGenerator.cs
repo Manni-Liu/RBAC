@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using RBAC.Domain.Entities;
-using RBAC.Application.Auth;
+using RBAC.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 

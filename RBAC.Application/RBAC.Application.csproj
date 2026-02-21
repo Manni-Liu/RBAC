@@ -3,7 +3,6 @@
   <ItemGroup>
     <ProjectReference Include="..\RBAC.Domain\RBAC.Domain.csproj" />
     <ProjectReference Include="..\RBAC.Shared\RBAC.Shared.csproj" />
-    <!-- <ProjectReference Include="..\RBAC.Infrastructure\RBAC.Infrastructure.csproj" /> -->
   </ItemGroup>
 
   <ItemGroup>

@@ -1,33 +1,29 @@
-using Microsoft.EntityFrameworkCore;
-using RBAC.Application.Auth;
-using RBAC.Domain.Entities;
-using RBAC.Infrastructure.Persistence;
+using RBAC.Application.Interfaces;
 using RBAC.Application.Common;
 using RBAC.Domain.Common.Enums;
+using RBAC.Domain.Entities;
 
-namespace RBAC.Infrastructure.Auth;
+namespace RBAC.Application.Auth;
 
 public class AuthService : IAuthService
 {
-    private readonly RbacDbContext _db;
+    private readonly IUserRepository _userRepository;
 
-    public AuthService(RbacDbContext db)
+    public AuthService(IUserRepository userRepository)
     {
-        _db = db;
+        _userRepository = userRepository;
     }
 
-    public async Task<User> ValidateUserAsync(string username, string password)
+    public async Task<User> ValidateUserAsync(
+        long tenantId,
+        string username,
+        string password)
     {
-        var user = await _db.Users
-            .FirstOrDefaultAsync(u => u.Username == username);
-
-        if (user is null)
-        {
-            throw new BusinessException(
+        var user = await _userRepository.GetByUsernameAsync(tenantId, username)
+            ?? throw new BusinessException(
                 "INVALID_CREDENTIALS",
                 "Invalid username or password"
             );
-        }
 
         if (user.Status != Status.Enabled)
         {
@@ -48,5 +44,4 @@ public class AuthService : IAuthService
 
         return user;
     }
-
 }

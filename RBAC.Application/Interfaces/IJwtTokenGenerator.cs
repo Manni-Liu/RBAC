@@ -1,6 +1,6 @@
 using RBAC.Domain.Entities;
 
-namespace RBAC.Application.Auth;
+namespace RBAC.Application.Interfaces;
 
 public interface IJwtTokenGenerator
 {

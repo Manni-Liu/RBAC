@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using RBAC.Application.Users;
 using RBAC.Domain.Entities;
 using RBAC.Infrastructure.Persistence;
+using RBAC.Application.Interfaces;
 
 namespace RBAC.Infrastructure.Users;
 

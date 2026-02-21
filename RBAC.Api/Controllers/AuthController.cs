@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RBAC.Application.Auth;
+using RBAC.Application.Interfaces;
 
 namespace RBAC.Api.Controllers;
 
@@ -21,7 +22,8 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDto dto)
     {
-        var user = await _authService.ValidateUserAsync(dto.Username, dto.Password);
+        long tenantId = 1; // from JWT / Header 
+        var user = await _authService.ValidateUserAsync(tenantId, dto.Username, dto.Password);
         var token = _tokenGenerator.Generate(user);
 
         return Ok(new

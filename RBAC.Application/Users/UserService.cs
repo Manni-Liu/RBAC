@@ -2,10 +2,11 @@ using BCrypt.Net;
 using RBAC.Application.Common;
 using RBAC.Domain.Common.Enums;
 using RBAC.Domain.Entities;
+using RBAC.Application.Interfaces;
 
 namespace RBAC.Application.Users;
 
-public class UserService
+public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
 

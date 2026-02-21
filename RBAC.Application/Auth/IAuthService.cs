@@ -4,5 +4,8 @@ namespace RBAC.Application.Auth;
 
 public interface IAuthService
 {
-    Task<User> ValidateUserAsync(string username, string password);
+    Task<User> ValidateUserAsync(
+        long tenantId,
+        string username,
+        string password);
 }

@@ -1,7 +1,7 @@
 // RBAC.Application/Users/IUserRepository.cs
 using RBAC.Domain.Entities;
 
-namespace RBAC.Application.Users;
+namespace RBAC.Application.Interfaces;
 
 public interface IUserRepository
 {
