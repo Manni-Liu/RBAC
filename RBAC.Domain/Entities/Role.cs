@@ -1,5 +1,3 @@
-using RBAC.Domain.Common;
-
 namespace RBAC.Domain.Entities;
 
 public class Role : TenantEntity
@@ -12,9 +10,11 @@ public class Role : TenantEntity
         Name = name;
         Code = code;
         IsSystem = isSystem;
+        CreatedAt = DateTime.UtcNow;
     }
 
     public string Name { get; private set; } = default!;
     public string Code { get; private set; } = default!;
     public bool IsSystem { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 }
