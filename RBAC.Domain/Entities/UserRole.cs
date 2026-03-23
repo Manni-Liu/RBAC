@@ -2,10 +2,6 @@ namespace RBAC.Domain.Entities;
 
 public class UserRole
 {
-    public long UserId { get; private set; }
-    public long RoleId { get; private set; }
-    public DateTime AssignedAt { get; private set; }
-
     private UserRole() { }
 
     public UserRole(long userId, long roleId)
@@ -14,4 +10,10 @@ public class UserRole
         RoleId = roleId;
         AssignedAt = DateTime.UtcNow;
     }
+
+    public long UserId { get; private set; }
+
+    public long RoleId { get; private set; }
+
+    public DateTime AssignedAt { get; private set; }
 }

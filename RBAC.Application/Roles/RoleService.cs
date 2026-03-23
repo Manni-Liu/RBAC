@@ -23,14 +23,12 @@ public class RoleService : IRoleService
                 "Role code already exists in tenant");
         }
 
-        var role = new Role
-        {
-            TenantId = tenantId,
-            Name = dto.Name,
-            Code = dto.Code,
-            IsSystem = false,
-            CreatedAt = DateTime.UtcNow
-        };
+        var role = new Role(
+            tenantId,
+            dto.Name,
+            dto.Code,
+            false
+        );
 
         await _roleRepo.AddAsync(role);
 

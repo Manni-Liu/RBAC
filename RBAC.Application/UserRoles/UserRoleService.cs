@@ -22,11 +22,8 @@ public class UserRoleService
                 "User already has this role");
         }
 
-        await _repo.AssignAsync(new UserRole
-        {
-            UserId = userId,
-            RoleId = roleId,
-            AssignedAt = DateTime.UtcNow
-        });
+        await _repo.AssignAsync(
+            new UserRole(userId, roleId)
+        );
     }
 }

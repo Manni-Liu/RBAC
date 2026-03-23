@@ -1,3 +1,5 @@
+using RBAC.Domain.Common;
+
 namespace RBAC.Domain.Entities;
 
 public class Role : TenantEntity
@@ -16,5 +18,5 @@ public class Role : TenantEntity
     public string Name { get; private set; } = default!;
     public string Code { get; private set; } = default!;
     public bool IsSystem { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public new DateTime CreatedAt { get; private set; }
 }
